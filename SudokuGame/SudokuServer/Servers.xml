@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Start servers" default="all" basedir=".">
+<property name="PORT" value="9090" />
+<property name="HOST" value="localhost" />
+<target name="startorbd" description="Starts CORBA naming service">
+<echo message="Starting orbd at port ${PORT}" />
+<exec executable="/usr/local/jdk1.7.0_17/bin/orbd">
+<arg line="-ORBInitialPort ${PORT}" />
+</exec>
+</target>
+<target name="registerserver"
+description="Register a persistent CORBA service">
+<input message="Server package" addproperty="spkg" />
+<input message="Server main class" addproperty="sclass" />
+<input message="Jar file" addproperty="jar" />
+<input message="Application name" addproperty="apname" />
+<java classname="com.sun.corba.se.impl.activation.ServerTool" fork="true">
+<arg line="-ORBInitialHost ${HOST} -ORBInitialPort ${PORT} -cmd register -server ${spkg}.${sclass} -applicationName ${apname} -classpath ${basedir}/dist/${jar}" />
+</java>
+</target>
+</project>

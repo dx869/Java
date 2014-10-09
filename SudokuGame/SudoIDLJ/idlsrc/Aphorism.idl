@@ -1,0 +1,40 @@
+module Aphorism {
+	struct Move {
+		short	selections[4];
+	};
+
+	struct Result {
+		boolean win;
+		short   correct;
+		short   partcorrect;
+	};
+
+
+	exception IllegalOperation {
+		string reason;
+	};
+
+typedef sequence<string> stringlist;
+	interface Admin {
+		
+		boolean createPlayer(in string name, in string password);
+		boolean changePassword(in string name, in string password);
+		boolean deletePlayer(in string name);
+		void shutdownServer();
+                stringlist getnames();
+
+	};
+        interface Player{
+                string create(in short level);
+                string gamerecord();
+                string loadGame();
+                boolean login(in string password);
+                boolean recordMove(in string move);
+                boolean check(in string answer);
+                string undo();
+                string getPuzzle();
+
+        
+};
+
+};

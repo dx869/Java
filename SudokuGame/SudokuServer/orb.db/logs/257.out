@@ -1,0 +1,15 @@
+[Fri Sep 20 03:13:54 PDT 2013]         Server started
+Initializing orb
+Publishing to name service
+Admin POA created
+PLayer POA created
+[EL Info]: 2013-09-20 03:14:13.508--ServerSession(1025023554)--EclipseLink, version: Eclipse Persistence Services - 2.3.2.v20111125-r10461
+[EL Info]: 2013-09-20 03:14:21.569--ServerSession(1025023554)--file:/var/www/SudokuServer/dist/lib/SudokuPersistence.jar_SudokuPersistencePU login successful
+Binding name in nameservice
+examples/game/Administrator
+Starting server
+Activating Player dx869
+PlayerImpl  startingdx869
+New move has been record: 001
+New move has been record: 105
+Move: 105has been undoed.

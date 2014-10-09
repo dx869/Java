@@ -1,0 +1,71 @@
+<project name="Demo" default="info" basedir=".">
+
+	<property name="builddir" value="./build" />
+	<property name="idlsrcdir" value="./idlsrc" />
+	<property name="srcdir" value="./src" />
+	<property name="libdir" value="./lib" />
+
+	<target name="info" description="Explains how to use this build file" >
+		<echo message="Compiles CORBA code using Sun's idlj tool for standard Sun CORBA implementation."/>
+		<echo message="Subdirectory 'idlsrc' should contain the IDL file." />
+		<echo message="The IDL file should define a module - this becomes Java package" />
+		<echo message="the module can contain interfaces etc" />
+		<echo message="Typically would have something like Hello.idl containing a " />
+		<echo message="module Hello that will result in a package Hello being generated" />
+		<echo message="The generated Java packages will go into directory 'src' " />
+
+		<echo message="Once the IDL to Java step is complete, the generated Java files" />
+		<echo message="will be compiled with output to subdirectories of a 'build' directory." />
+
+		<echo message="The Java files will then be package in a .jar library" />
+		<echo message="This library can the be added to the client and server projects that " />
+		<echo message="are to be built around the CORBA interfaces." />
+
+		<echo message="Main target is 'build-library' " />
+	</target>
+
+	<target name="clean" description="Removes generated code etc" >
+		<!-- remove generated Java source, but leave the idl source! -->
+		<delete dir="${srcdir}" />
+		<delete dir="${builddir}" />
+		<delete dir="${libdir}" />
+	</target>
+
+
+	<target name="getModuleName" >
+		<input message="CORBA Module name " 
+			addproperty="modulename" />
+	</target>
+
+	<target name="idlcompile" >
+		<exec executable="idlj" >
+			<arg line="-fall -td ${srcdir} ${idlsrcdir}/${modulename}.idl" />
+		</exec>
+	</target>
+
+	<target name="compile" >
+		<javac includeantruntime="false" srcdir="${srcdir}" destdir="${builddir}" />
+	</target>
+
+	<target name="build-jar" >
+		<jar destfile="${libdir}/${modulename}.jar"
+			basedir="${builddir}" />
+	</target>
+
+	<target name="build-library" depends="getModuleName"  
+		description="Runs all steps needed to create library .jar file with CORBA related classes" >
+		<mkdir dir="${srcdir}" />
+		<mkdir dir="${builddir}" />
+		<mkdir dir="${libdir}" />
+		<echo message="Compiling IDL to Java" />
+		<antcall target="idlcompile" />
+		<echo message="Compiling Java" />
+		<antcall target="compile" />
+		<echo message="Constructing library .jar file" />
+		<antcall target="build-jar" />
+		
+	</target>
+
+</project>
+
+
